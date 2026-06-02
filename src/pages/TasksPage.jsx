@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { getTasksGroupedApi, completeTaskApi, deleteTaskApi } from '../../api/services.js';
+import { getTasksGroupedApi, completeTaskApi, deleteTaskApi } from '../api/services.js';
 import { FiUser, FiChevronDown, FiChevronUp, FiPhone, FiBookOpen, FiCheck, FiTrash2 } from 'react-icons/fi';
 import toast from 'react-hot-toast';
 
@@ -104,7 +104,7 @@ const TasksPage = () => {
                       <FiUser className="w-5 h-5" />
                     </div>
                     <div>
-                      <h3 className="font-bold text-slate-850 text-sm">{group.name}</h3>
+                      <h3 className="font-bold text-black text-sm">{group.name}</h3>
                       <p className="text-xs text-slate-500 font-medium">
                         {group.email} • {group.mobile}
                       </p>
@@ -175,7 +175,7 @@ const TasksPage = () => {
                                     <button
                                       onClick={() => completeMutation.mutate(task._id)}
                                       disabled={completeMutation.isPending}
-                                      className="inline-flex items-center gap-1 px-2.5 py-1 text-xs font-bold bg-oat-500 hover:bg-oat-400 border border-oat-400 text-slate-850 rounded-lg transition-colors disabled:opacity-50"
+                                      className="inline-flex items-center gap-1 px-2.5 py-1 text-xs font-bold bg-oat-500 hover:bg-oat-400 border border-oat-400 text-slate-850 hover:text-slate-800 rounded-lg transition-colors disabled:opacity-50"
                                     >
                                       <FiCheck className="w-3.5 h-3.5" /> Complete
                                     </button>

@@ -2,12 +2,12 @@ import React from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
 import { isAuthenticated } from '../utils/auth.js';
 import DashboardLayout from '../layouts/DashboardLayout.jsx';
-import LoginPage from '../pages/Login/LoginPage.jsx';
-import RegisterPage from '../pages/Register/RegisterPage.jsx';
-import DashboardPage from '../pages/Dashboard/DashboardPage.jsx';
-import AgentsPage from '../pages/Agents/AgentsPage.jsx';
-import UploadPage from '../pages/Upload/UploadPage.jsx';
-import TasksPage from '../pages/Tasks/TasksPage.jsx';
+import LoginPage from '../pages/LoginPage.jsx';
+import RegisterPage from '../pages/RegisterPage.jsx';
+import DashboardPage from '../pages/DashboardPage.jsx';
+import AgentsPage from '../pages/AgentsPage.jsx';
+import UploadPage from '../pages/UploadPage.jsx';
+import TasksPage from '../pages/TasksPage.jsx';
 
 export const ProtectedRoute = () => {
   return isAuthenticated() ? <Outlet /> : <Navigate to="/login" replace />;

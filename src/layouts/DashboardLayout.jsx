@@ -3,6 +3,7 @@ import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { FiPieChart, FiUsers, FiUploadCloud, FiList, FiLogOut, FiMenu, FiX } from 'react-icons/fi';
 import { removeToken } from '../utils/auth.js';
 import { MdSupportAgent } from "react-icons/md";
+import { logoutApi } from '../api/services.js';
 
 const DashboardLayout = () => {
   const location = useLocation();
@@ -16,7 +17,12 @@ const DashboardLayout = () => {
     { name: 'Agent Task View', path: '/tasks', icon: FiList }
   ];
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    try {
+      await logoutApi();
+    } catch (error) {
+      console.error('Logout API failed:', error);
+    }
     removeToken();
     navigate('/login');
   };

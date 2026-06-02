@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useMutation } from '@tanstack/react-query';
-import { registerApi } from '../../api/services.js';
+import { registerApi } from '../api/services.js';
 import toast from 'react-hot-toast';
 
 const RegisterPage = () => {
@@ -142,7 +142,7 @@ const RegisterPage = () => {
           <button
             type="submit"
             disabled={mutation.isPending}
-            className="w-full py-2.5 rounded-lg bg-oat-500 hover:bg-oat-400 text-slate-850 font-bold text-sm transition-all disabled:opacity-50 flex justify-center items-center border border-oat-400"
+            className="w-full py-2.5 rounded-lg bg-oat-500 hover:bg-oat-400 text-slate-850 hover:text-slate-800 font-bold text-sm transition-all disabled:opacity-50 flex justify-center items-center border border-oat-400"
           >
             {mutation.isPending ? 'Registering...' : 'Register'}
           </button>

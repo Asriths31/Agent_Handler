@@ -35,10 +35,53 @@ export const deleteAgentApi = async (id) => {
 export const uploadTasksApi = async (file) => {
   const formData = new FormData();
   formData.append('file', file);
-  const response = await client.post('/tasks/upload', formData, {
-    headers: {
-      'Content-Type': 'multipart/form-data'
+  try {
+    const response = await client.post('/tasks/upload', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      },
+      responseType: 'blob'
+    });
+
+    const contentType = response.headers['content-type'];
+    if (contentType && contentType.includes('application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')) {
+      return {
+        success: false,
+        isErrorFile: true,
+        errorBlob: response.data,
+        importedCount: parseInt(response.headers['x-imported-count'] || '0', 10),
+        errorCount: parseInt(response.headers['x-error-count'] || '0', 10)
+      };
     }
+
+    const text = await response.data.text();
+    return JSON.parse(text);
+  } catch (error) {
+    if (error.response && error.response.data instanceof Blob) {
+      const contentType = error.response.headers['content-type'];
+      if (contentType && contentType.includes('application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')) {
+        return {
+          success: false,
+          isErrorFile: true,
+          errorBlob: error.response.data,
+          importedCount: parseInt(error.response.headers['x-imported-count'] || '0', 10),
+          errorCount: parseInt(error.response.headers['x-error-count'] || '0', 10)
+        };
+      }
+      const text = await error.response.data.text();
+      try {
+        return JSON.parse(text);
+      } catch (e) {
+        return { success: false, message: 'Server error' };
+      }
+    }
+    throw error;
+  }
+};
+
+export const downloadTemplateApi = async () => {
+  const response = await client.get('/tasks/template', {
+    responseType: 'blob'
   });
   return response.data;
 };
@@ -60,6 +103,11 @@ export const completeTaskApi = async (id) => {
 
 export const deleteTaskApi = async (id) => {
   const response = await client.delete(`/tasks/${id}`);
+  return response.data;
+};
+
+export const logoutApi = async () => {
+  const response = await client.post('/auth/logout');
   return response.data;
 };
 

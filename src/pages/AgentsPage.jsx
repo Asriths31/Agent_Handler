@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { getAgentsApi, addAgentApi, updateAgentApi, deleteAgentApi } from '../../api/services.js';
+import { getAgentsApi, addAgentApi, updateAgentApi, deleteAgentApi } from '../api/services.js';
 import toast from 'react-hot-toast';
 
 const AgentsPage = () => {
@@ -246,7 +246,7 @@ const AgentsPage = () => {
             <button
               type="submit"
               disabled={addAgentMutation.isPending || updateAgentMutation.isPending}
-              className="flex-1 py-2 bg-oat-500 hover:bg-oat-400 text-slate-850 font-bold rounded-lg text-sm border border-oat-400 transition-all disabled:opacity-50"
+              className="flex-1 py-2 bg-oat-500 hover:bg-oat-400 text-slate-850 hover:text-slate-800 font-bold rounded-lg text-sm border border-oat-400 transition-all disabled:opacity-50"
             >
               {editingAgentId ? 'Update Agent' : 'Add Agent'}
             </button>

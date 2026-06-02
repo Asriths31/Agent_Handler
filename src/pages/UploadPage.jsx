@@ -1,8 +1,19 @@
 import React, { useState } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { uploadTasksApi } from '../../api/services.js';
+import { uploadTasksApi, downloadTemplateApi } from '../api/services.js';
 import { FiUploadCloud, FiFileText, FiCheckCircle } from 'react-icons/fi';
 import toast from 'react-hot-toast';
+
+const downloadBlob = (blob, filename) => {
+  const url = window.URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  window.URL.revokeObjectURL(url);
+};
 
 const UploadPage = () => {
   const queryClient = useQueryClient();
@@ -22,6 +33,17 @@ const UploadPage = () => {
         setFile(null);
         queryClient.invalidateQueries({ queryKey: ['stats'] });
         queryClient.invalidateQueries({ queryKey: ['grouped-tasks'] });
+      } else if (res.isErrorFile) {
+        if (res.importedCount > 0) {
+          toast.success(`Successfully imported and distributed ${res.importedCount} tasks.`);
+          toast.error(`${res.errorCount} invalid or duplicate tasks were rejected. Downloading error details.`);
+          queryClient.invalidateQueries({ queryKey: ['stats'] });
+          queryClient.invalidateQueries({ queryKey: ['grouped-tasks'] });
+        } else {
+          toast.error('Validation failed for all tasks. Downloading error details.');
+        }
+        downloadBlob(res.errorBlob, 'upload_errors.xlsx');
+        setFile(null);
       } else {
         toast.error(res.message || 'Upload failed');
       }
@@ -31,6 +53,16 @@ const UploadPage = () => {
       toast.error(msg);
     }
   });
+
+  const handleDownloadTemplate = async () => {
+    try {
+      const blob = await downloadTemplateApi();
+      downloadBlob(blob, 'tasks_template.xlsx');
+      toast.success('Template downloaded successfully');
+    } catch (error) {
+      toast.error('Failed to download template');
+    }
+  };
 
   const validateFile = (selectedFile) => {
     if (!selectedFile) return false;
@@ -88,10 +120,21 @@ const UploadPage = () => {
   return (
     <div className="max-w-2xl mx-auto space-y-8">
       <div className="bg-oat-100 p-8 rounded-2xl border border-oat-400 shadow-sm">
-        <h2 className="text-lg font-bold text-slate-800 mb-2">Upload Task File</h2>
-        <p className="text-slate-650 text-xs mb-6 leading-relaxed">
-          Upload a file containing leads. Required columns: <span className="font-bold text-slate-800">FirstName</span>, <span className="font-bold text-slate-800">Phone</span>, and <span className="font-bold text-slate-800">Notes</span>. Accepted extensions: .csv, .xls, .xlsx.
-        </p>
+        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4 mb-6">
+          <div className="flex-1">
+            <h2 className="text-lg font-bold text-slate-800 mb-2">Upload Task File</h2>
+            <p className="text-slate-650 text-xs leading-relaxed">
+              Upload a file containing leads. Required columns: <span className="font-bold text-slate-800">FirstName</span>, <span className="font-bold text-slate-800">Phone</span>, and <span className="font-bold text-slate-800">Notes</span>. Accepted extensions: .csv, .xls, .xlsx.
+            </p>
+          </div>
+          <button
+            type="button"
+            onClick={handleDownloadTemplate}
+            className="px-4 py-2 bg-oat-500 hover:bg-oat-400 text-slate-850 hover:text-slate-800 text-xs font-bold border border-oat-400 rounded-lg transition-all flex-shrink-0"
+          >
+            Download Template
+          </button>
+        </div>
 
         <form onSubmit={handleSubmit} className="space-y-6">
           <div
@@ -145,7 +188,7 @@ const UploadPage = () => {
               type="submit"
               disabled={!file || uploadMutation.isPending}
               className={`py-2.5 rounded-lg text-slate-850 text-sm font-bold border border-oat-400 transition-all ${
-                file ? 'flex-1 bg-oat-500 hover:bg-oat-400' : 'w-full bg-oat-200 text-slate-400 cursor-not-allowed'
+                file ? 'flex-1 bg-oat-500 hover:bg-oat-400 hover:text-slate-800' : 'w-full bg-oat-200 text-slate-400 cursor-not-allowed'
               } disabled:opacity-50`}
             >
               {uploadMutation.isPending ? 'Uploading & Distributing...' : 'Distribute Tasks'}

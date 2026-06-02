@@ -1,6 +1,6 @@
 import React from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { getStatsApi } from '../../api/services.js';
+import { getStatsApi } from '../api/services.js';
 import { Link } from 'react-router-dom';
 import { FiUsers, FiUploadCloud, FiList, FiArrowRight, FiActivity, FiCheckSquare } from 'react-icons/fi';
 
@@ -19,7 +19,7 @@ const DashboardPage = () => {
       path: '/agents',
       icon: FiUsers,
       color: 'bg-oat-200 text-slate-800 border-oat-400',
-      btnColor: 'bg-oat-500 hover:bg-oat-400 text-slate-850'
+      btnColor: 'bg-oat-500 hover:bg-oat-400 text-slate-850 hover:text-slate-800'
     },
     {
       title: 'CSV/Excel Upload',
@@ -27,7 +27,7 @@ const DashboardPage = () => {
       path: '/upload',
       icon: FiUploadCloud,
       color: 'bg-oat-200 text-slate-800 border-oat-400',
-      btnColor: 'bg-oat-500 hover:bg-oat-400 text-slate-850'
+      btnColor: 'bg-oat-500 hover:bg-oat-400 text-slate-850 hover:text-slate-800'
     },
     {
       title: 'Agent Task View',
@@ -35,7 +35,7 @@ const DashboardPage = () => {
       path: '/tasks',
       icon: FiList,
       color: 'bg-oat-200 text-slate-800 border-oat-400',
-      btnColor: 'bg-oat-500 hover:bg-oat-400 text-slate-850'
+      btnColor: 'bg-oat-500 hover:bg-oat-400 text-slate-850 hover:text-slate-800'
     }
   ];
 
