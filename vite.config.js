@@ -5,12 +5,12 @@ export default defineConfig({
   plugins: [react()],
   server: {
     port: 5173,
-    proxy: {
-      '/api': {
-        // target: 'http://localhost:5000',
-        target: 'https://agent-handler-server.onrender.com',
-        changeOrigin: true
-      }
-    }
+    // proxy: {
+    //   '/api': {
+    //     // target: 'http://localhost:5000',
+    //     target: 'https://agent-handler-server.onrender.com',
+    //     changeOrigin: true
+    //   }
+    // }
   }
 });
