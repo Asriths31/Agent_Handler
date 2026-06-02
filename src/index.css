@@ -1,0 +1,35 @@
+@import url("https://unpkg.com/@knadh/oat/oat.min.css");
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: 194 100% 33%; /* #0081a7 (Deep Teal/Blue) */
+  --foreground: 58 91% 93%; /* #fdfcdc (Warm Ivory) */
+  --card: 194 100% 33%; /* #0081a7 (Deep Teal/Blue) */
+  --card-foreground: 58 91% 93%;
+  --popover: 194 100% 33%;
+  --popover-foreground: 58 91% 93%;
+  --primary: 58 91% 93%; /* #fdfcdc (Warm Ivory) */
+  --primary-foreground: 194 100% 33%;
+  --secondary: 183 100% 36%; /* #00afb9 (Bright Teal) */
+  --secondary-foreground: 194 100% 33%;
+  --muted: 194 100% 33%;
+  --muted-foreground: 183 100% 36%;
+  --accent: 183 100% 36%; /* #00afb9 (Bright Teal) */
+  --accent-foreground: 58 91% 93%;
+  --destructive: 183 100% 36%; /* #00afb9 (Bright Teal) */
+  --destructive-foreground: 58 91% 93%;
+  --border: 183 100% 36%; /* #00afb9 (Bright Teal) */
+  --input: 194 100% 33%;
+  --ring: 58 91% 93%; /* #fdfcdc (Warm Ivory) */
+  --radius: 0.75rem;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background-color: #0081a7;
+  color: #fdfcdc;
+}
