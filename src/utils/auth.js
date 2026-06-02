@@ -1,15 +1,17 @@
 export const getToken = () => {
-  return localStorage.getItem('token');
+  return localStorage.getItem('isAuthenticated') === 'true' ? 'true' : null;
 };
 
 export const setToken = (token) => {
-  localStorage.setItem('token', token);
+  // We do not store the actual sensitive JWT token in localStorage to protect against XSS.
+  // Instead, we only store a non-sensitive flag, as the actual auth is handled by secure HTTP-only cookies.
+  localStorage.setItem('isAuthenticated', 'true');
 };
 
 export const removeToken = () => {
-  localStorage.removeItem('token');
+  localStorage.removeItem('isAuthenticated');
 };
 
 export const isAuthenticated = () => {
-  return !!getToken();
+  return localStorage.getItem('isAuthenticated') === 'true';
 };
