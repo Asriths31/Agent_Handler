@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { FiPieChart, FiUsers, FiUploadCloud, FiList, FiLogOut, FiMenu, FiX } from 'react-icons/fi';
-import { removeToken } from '../utils/auth.js';
+import { removeToken, getUsername } from '../utils/auth.js';
 import { MdSupportAgent } from "react-icons/md";
 import { logoutApi } from '../api/services.js';
 
@@ -9,6 +9,7 @@ const DashboardLayout = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const username = getUsername();
 
   const menuItems = [
     { name: 'Dashboard', path: '/', icon: FiPieChart },
@@ -70,7 +71,7 @@ const DashboardLayout = () => {
           className="flex w-full items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium text-red-700 hover:bg-red-100/50 transition-all"
         >
           <FiLogOut className="w-5 h-5 text-red-600" />
-          Logout Admin
+          Logout
         </button>
       </div>
     </div>
@@ -106,9 +107,9 @@ const DashboardLayout = () => {
           </div>
           <div className="flex items-center gap-3">
             <div className="w-8 h-8 rounded-full bg-oat-200 text-slate-800 flex items-center justify-center font-bold text-sm border border-oat-400">
-              AD
+              {username.substring(0, 2).toUpperCase()}
             </div>
-            <span className="text-sm font-semibold text-slate-800">Admin</span>
+            <span className="text-sm font-semibold text-slate-800">{username}</span>
           </div>
         </header>
 

@@ -5,8 +5,8 @@ export const loginApi = async (email, password) => {
   return response.data;
 };
 
-export const registerApi = async (email, password) => {
-  const response = await client.post('/auth/register', { email, password });
+export const registerApi = async (username, email, password) => {
+  const response = await client.post('/auth/register', { username, email, password });
   return response.data;
 };
 
@@ -108,6 +108,11 @@ export const deleteTaskApi = async (id) => {
 
 export const logoutApi = async () => {
   const response = await client.post('/auth/logout');
+  return response.data;
+};
+
+export const checkUsernameApi = async (username) => {
+  const response = await client.get(`/auth/check-username?username=${encodeURIComponent(username)}`);
   return response.data;
 };
 

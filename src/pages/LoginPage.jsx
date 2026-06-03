@@ -2,19 +2,24 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useMutation } from '@tanstack/react-query';
 import { loginApi } from '../api/services.js';
-import { setToken } from '../utils/auth.js';
+import { setToken, setUsername } from '../utils/auth.js';
 import toast from 'react-hot-toast';
+import { FiEye, FiEyeOff } from 'react-icons/fi';
 
 const LoginPage = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({ email: '', password: '' });
   const [errors, setErrors] = useState({});
+  const [showPassword, setShowPassword] = useState(false);
 
   const mutation = useMutation({
     mutationFn: ({ email, password }) => loginApi(email, password),
     onSuccess: (data) => {
       if (data.success && data.data?.token) {
         setToken(data.data.token);
+        if (data.data.user?.username) {
+          setUsername(data.data.user.username);
+        }
         toast.success('Logged in successfully!');
         navigate('/');
       } else {
@@ -74,7 +79,7 @@ const LoginPage = () => {
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label className="block text-sm font-semibold text-slate-700 mb-1" htmlFor="email">
-              Email Address
+              Email Address <span className="text-red-500">*</span>
             </label>
             <input
               id="email"
@@ -94,21 +99,30 @@ const LoginPage = () => {
 
           <div>
             <label className="block text-sm font-semibold text-slate-700 mb-1" htmlFor="password">
-              Password
+              Password <span className="text-red-500">*</span>
             </label>
-            <input
-              id="password"
-              type="password"
-              name="password"
-              value={formData.password}
-              onChange={handleChange}
-              placeholder="••••••••"
-              className={`w-full px-4 py-2.5 rounded-lg border text-sm transition-all focus:outline-none focus:ring-1 bg-oat-300 text-slate-800 ${
-                errors.password
-                  ? 'border-red-400 focus:ring-red-300'
-                  : 'border-oat-400 focus:ring-oat-500 focus:border-oat-500'
-              }`}
-            />
+            <div className="relative">
+              <input
+                id="password"
+                type={showPassword ? 'text' : 'password'}
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
+                placeholder="••••••••"
+                className={`w-full pl-4 pr-10 py-2.5 rounded-lg border text-sm transition-all focus:outline-none focus:ring-1 bg-oat-300 text-slate-800 ${
+                  errors.password
+                    ? 'border-red-400 focus:ring-red-300'
+                    : 'border-oat-400 focus:ring-oat-500 focus:border-oat-500'
+                }`}
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-700 focus:outline-none"
+              >
+                {showPassword ? <FiEyeOff className="w-5 h-5" /> : <FiEye className="w-5 h-5" />}
+              </button>
+            </div>
             {errors.password && <p className="text-red-600 text-xs mt-1 font-semibold">{errors.password}</p>}
           </div>
 

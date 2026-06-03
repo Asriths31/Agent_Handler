@@ -10,8 +10,21 @@ export const setToken = (token) => {
 
 export const removeToken = () => {
   localStorage.removeItem('isAuthenticated');
+  removeUsername();
 };
 
 export const isAuthenticated = () => {
   return localStorage.getItem('isAuthenticated') === 'true';
+};
+
+export const setUsername = (username) => {
+  localStorage.setItem('username', username || '');
+};
+
+export const getUsername = () => {
+  return localStorage.getItem('username') || 'Admin';
+};
+
+export const removeUsername = () => {
+  localStorage.removeItem('username');
 };
