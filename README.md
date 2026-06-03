@@ -10,16 +10,6 @@ This repository contains a full-stack MERN application for uploading lists of ta
 
 ---
 
-## Key Features
-
-1. **Multi-Tenant User Isolation**: Data is partitioned dynamically. Registered users can only see, create, modify, and delete their own agents and tasks.
-2. **Bloom Filter Username Check**: Utilizes a highly efficient, in-memory Bloom Filter to verify username uniqueness during registration. DB lookups are avoided entirely if the Bloom Filter guarantees the username does not exist.
-3. **Excel/CSV Upload & Equal Round-Robin Distribution**: Upload leads via spreadsheets (CSV/XLS/XLSX) which are instantly parsed and distributed equally among active agents.
-4. **Enhanced UI Forms**: Registration and login screens include dynamic required fields (`*`), password guidelines, and visibility toggles (Show/Hide password).
-5. **Real-time Availability checking**: Username availability is verified dynamically as the user types using a 500ms debounced checking mechanism with a loading indicator.
-
----
-
 ## Project Structure
 
 ```
