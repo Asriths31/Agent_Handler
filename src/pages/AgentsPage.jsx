@@ -115,10 +115,8 @@ const AgentsPage = () => {
 
     if (!formData.mobile.trim()) {
       newErrors.mobile = 'Mobile number is required';
-    } else if (!formData.mobile.startsWith('+')) {
-      newErrors.mobile = 'Mobile number must start with country code (e.g. +91 or +1)';
-    } else if (!/^\+\d{7,15}$/.test(formData.mobile.replace(/\s+/g, ''))) {
-      newErrors.mobile = 'Please enter a valid mobile number with country code (e.g., +919876543210)';
+    } else if (!/^\d{10}$/.test(formData.mobile.trim())) {
+      newErrors.mobile = 'Mobile number must be exactly 10 digits (numbers only)';
     }
 
     if (!editingAgentId && !formData.password) {
@@ -195,7 +193,7 @@ const AgentsPage = () => {
 
           <div>
             <label className="block text-xs font-bold text-slate-700 mb-1" htmlFor="mobile">
-              Mobile Number (with country code)
+              Mobile Number
             </label>
             <input
               id="mobile"
@@ -203,7 +201,7 @@ const AgentsPage = () => {
               name="mobile"
               value={formData.mobile}
               onChange={handleChange}
-              placeholder="+919876543210"
+              placeholder="9876543210"
               className={`w-full px-4 py-2 rounded-lg border text-sm focus:outline-none focus:ring-1 bg-oat-300 text-slate-805 ${
                 errors.mobile
                   ? 'border-red-400 focus:ring-red-300'
